@@ -281,6 +281,33 @@ predict_results <- data.frame(PatientID = test_data$PatientID,
 # Step16:Show the table
 print(predict_results)  
 
+# Step17: Diagnostic plots for predicted values on test data
+# Calculate residuals
+residuals <- test_data$`Vas-12months` - predictions
+# Set up a 2x2 layout for the plots
+par(mfrow = c(2, 2))  
+# 1. Residuals vs Predicted Values Plot
+plot(predictions, residuals, 
+     xlab = "Predicted Values", ylab = "Residuals", 
+     main = "Residuals vs Predicted Values")
+abline(h = 0, col = "red")  # Add horizontal line at y = 0
+# 2. Histogram of Residuals
+hist(residuals, breaks = 20, 
+     main = "Histogram of Residuals", 
+     xlab = "Residuals", col = "skyblue", border = "white")
+# 3. Normal Q-Q Plot of Residuals
+qqnorm(residuals, main = "Normal Q-Q Plot of Residuals")
+qqline(residuals, col = "red")  # Add theoretical normal line
+# 4. Scale-Location Plot (Square root of standardized residuals vs Predicted Values)
+sqrt_residuals <- sqrt(abs(residuals))  # Take square root of the absolute residuals
+plot(predictions, sqrt_residuals, 
+     xlab = "Predicted Values", ylab = "Sqrt(|Residuals|)", 
+     main = "Scale-Location Plot")
+abline(h = 0, col = "red")  # Add horizontal line at y = 0
+# Reset the plotting layout to default
+par(mfrow = c(1, 1))  
+
+
 
 
 
